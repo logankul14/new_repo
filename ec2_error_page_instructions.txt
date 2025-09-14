@@ -1,0 +1,59 @@
+# Adding Custom error.html on AWS EC2 (Apache/Nginx)
+
+## Step 1: Create error.html with nano
+
+Apache (Amazon Linux):
+    sudo nano /var/www/html/error.html
+
+Nginx (Amazon Linux/Ubuntu):
+    sudo nano /usr/share/nginx/html/error.html
+
+Example HTML:
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>404 Error</title>
+    </head>
+    <body>
+        <h1>Oops! Page Not Found</h1>
+        <p>The page you are looking for does not exist.</p>
+        <p><a href="index.html">Back to Home</a></p>
+    </body>
+    </html>
+
+Save in nano:
+- CTRL + O → Enter (save)
+- CTRL + X (exit)
+
+## Step 2: Configure Web Server
+
+### Apache
+1. Edit Apache config:
+    sudo nano /etc/httpd/conf/httpd.conf
+
+2. Add inside `<VirtualHost *:80>` block:
+    ErrorDocument 404 /error.html
+
+3. Save and restart Apache:
+    sudo systemctl restart httpd
+
+### Nginx
+1. Edit Nginx default config:
+    sudo nano /etc/nginx/nginx.conf
+    (or /etc/nginx/conf.d/default.conf on some systems)
+
+2. Inside `server { ... }` block, add:
+    error_page 404 /error.html;
+    location = /error.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
+3. Save and restart Nginx:
+    sudo systemctl restart nginx
+
+## Step 3: Test Custom Error Page
+Open a non-existent URL in browser, e.g.:
+    http://<Public_IP>/doesnotexist.html
+
+You should see your custom error.html page.

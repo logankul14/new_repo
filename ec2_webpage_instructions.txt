@@ -1,0 +1,71 @@
+# Hosting a Webpage on AWS EC2 (Apache/Nginx) using PuTTY and nano
+
+## Step 1: Launch EC2 Instance
+1. Choose **Amazon Linux 2** or **Ubuntu** AMI.
+2. Instance type: **t3.nano** (or similar).
+3. Security Group:
+   - Allow **SSH (22)** from My IP.
+   - Allow **HTTP (80)** from Anywhere.
+
+## Step 2: Connect with PuTTY
+1. Convert `.pem` to `.ppk` using **PuTTYgen**.
+2. Open PuTTY → Hostname: `ec2-user@<Public_IP>` (Amazon Linux) or `ubuntu@<Public_IP>` (Ubuntu).
+3. Go to Connection → SSH → Auth → select `.ppk` file → Connect.
+
+## Step 3: Update Packages
+For Amazon Linux:
+    sudo yum update -y
+
+For Ubuntu:
+    sudo apt update -y && sudo apt upgrade -y
+
+## Step 4: Install Web Server
+Apache (Amazon Linux):
+    sudo yum install httpd -y
+    sudo systemctl start httpd
+    sudo systemctl enable httpd
+
+Nginx (Amazon Linux):
+    sudo amazon-linux-extras install nginx1 -y
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
+
+For Ubuntu:
+    sudo apt install apache2 -y        # Apache
+    sudo apt install nginx -y          # Nginx
+
+## Step 5: Create Webpage with nano
+Apache (Amazon Linux):
+    sudo nano /var/www/html/index.html
+
+Nginx (Amazon Linux/Ubuntu):
+    sudo nano /usr/share/nginx/html/index.html
+
+Example HTML:
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Welcome to My EC2 Site</title>
+    </head>
+    <body>
+        <h1>Hello from EC2 t3.nano Web Server!</h1>
+        <p>This page is hosted on Apache/Nginx.</p>
+    </body>
+    </html>
+
+Save in nano:
+- CTRL + O → Enter (save)
+- CTRL + X (exit)
+
+## Step 6: Restart Web Server
+Apache:
+    sudo systemctl restart httpd
+
+Nginx:
+    sudo systemctl restart nginx
+
+## Step 7: Test Website
+Open in browser:
+    http://<Public_IP>
+
+You should see your custom webpage.
