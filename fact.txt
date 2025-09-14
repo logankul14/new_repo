@@ -1,0 +1,18 @@
+#!/bin/bash
+
+read -p "enter a number: " num
+
+fact=1
+counter=$num
+
+if [ $num -lt 0 ]; then
+	echo "enter a valid num"
+	exit 1;
+fi
+
+while [ $counter -gt 1 ]; do
+	fact=$((fact * counter))
+	counter=$((counter-1))
+done
+
+echo "$fact"

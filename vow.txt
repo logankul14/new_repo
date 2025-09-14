@@ -1,0 +1,12 @@
+#!/bin/bash
+
+read -p "enter a single character" var
+
+case "$var" in
+	[aeiouAEIOU])
+		echo "vowel" ;;
+	[a-zA-z])
+		echo "consonant" ;;
+	*)
+		echo "invalid" ;;
+esac

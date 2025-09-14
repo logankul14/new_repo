@@ -1,0 +1,11 @@
+#!/bin/bash
+
+read -p "enter file name: " var
+
+if [ -e $var ] && [ -r $var ]; then
+	echo "exists and readable"
+elif [ -e $var ]; then
+	echo "exists but not readable"
+else
+    echo "The file $var does not exist."
+fi

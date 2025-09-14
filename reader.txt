@@ -1,0 +1,17 @@
+#!/bin/bash
+
+read -p "enter a file name" var
+
+if [ ! -r "$var" ]; then
+	echo "invalid file"
+	exit 1
+fi
+
+line=$(wc -l < "$var")
+word=$(wc -w < "$var")
+char=$(wc -m < "$var")
+
+echo "File: $var"
+echo "Lines: $line"
+echo "Words: $word"
+echo "Characters: $char"
